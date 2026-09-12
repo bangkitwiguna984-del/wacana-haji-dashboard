@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Dashboard from "./dashboard";
+import { LoginPage, useSession } from "./login-gate";
 import type { Dataset } from "./dashboard-model";
 
 async function loadJson<T>(path: string, fallback: T): Promise<T> {
@@ -9,7 +10,7 @@ async function loadJson<T>(path: string, fallback: T): Promise<T> {
   return response.ok ? ((await response.json()) as T) : fallback;
 }
 
-export default function Home() {
+function DashboardLoader() {
   const [dataset, setDataset] = useState<Dataset | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -55,4 +56,12 @@ export default function Home() {
   }
 
   return <Dashboard dataset={dataset} />;
+}
+
+export default function Home() {
+  // Gerbang diperiksa sebelum data dimuat, sehingga unduhan ~4 MB baru berjalan
+  // setelah pengguna masuk.
+  const unlocked = useSession();
+  if (!unlocked) return <LoginPage />;
+  return <DashboardLoader />;
 }

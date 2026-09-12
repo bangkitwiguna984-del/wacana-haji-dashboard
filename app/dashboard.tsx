@@ -6,7 +6,7 @@ import ReactECharts from "echarts-for-react";
 import { ConceptCentrality, NetworkTables } from "./network-tables";
 import {
   ArrowLeft, ArrowUpRight, BarChart3, BookOpenText, Database,
-  Network, PanelLeftClose, PanelLeftOpen, Pause, Play,
+  LogOut, Network, PanelLeftClose, PanelLeftOpen, Pause, Play,
 } from "lucide-react";
 import {
   CONCEPT_LABELS, OVERVIEW_CONCEPT_INDICATORS, displayActorName, distributionLabel,
@@ -17,6 +17,7 @@ import {
 } from "./dashboard-model";
 import { EmptyState, PAGE_META, PageLead } from "./page-chrome";
 import { EvidencePending, EvidenceTab, evidenceFiltersFromUrl } from "./evidence-tab";
+import { closeSession } from "./login-gate";
 import { readUrlParams, writeUrlParams } from "./url-state";
 import { SelectField } from "./select-field";
 import { FigureActions } from "./figure-actions";
@@ -186,6 +187,10 @@ function Sidebar({ tab, setTab, collapsed, onToggle }: {
       </nav>
 
       <div className="sidebar-foot">
+        <button type="button" className="sidebar-signout" onClick={closeSession}
+          title="Keluar dari dashboard" aria-label="Keluar dari dashboard">
+          <LogOut size={15} aria-hidden="true" /><span>Keluar</span>
+        </button>
         <div className="sidebar-logo">
           {/* The local static asset is intentionally rendered at its native aspect ratio. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
